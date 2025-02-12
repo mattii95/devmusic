@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "./auth/components/AuthProvider";
+import { QueryProvider } from "@/components/provider/QueryProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -14,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: "DevMusic",
-    description: "Escucha, escucha, modifica playlist de una manera sencilla",
+    description: "Crea o modifica playlist de una manera sencilla",
 };
 
 export default function RootLayout({
@@ -23,12 +25,16 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
-                {children}
-            </body>
-        </html>
+        <AuthProvider>
+            <html lang="en">
+                <body
+                    className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-900 text-white`}
+                >
+                    <QueryProvider>
+                        {children}
+                    </QueryProvider>
+                </body>
+            </html>
+        </AuthProvider>
     );
 }
